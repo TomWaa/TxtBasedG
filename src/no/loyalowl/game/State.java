@@ -1,30 +1,25 @@
 package no.loyalowl.game;
 
-public class MenuState
+public class State
 {
     private int width;
     private int height;
 
     private char[] screenBuffer;
 
-    public MenuState(int width, int height)
+    public State(int width, int height)
     {
         this.width = width;
         this.height = height;
 
         screenBuffer = new char[height * width];
-        for (int y = 0; y < height; y++)
-        {
-            for (int x = 0; x < width; x++)
-            {
-                screenBuffer[y * width + x] = '.';
-            }
-        }
-
-        writeLine("Thomas", 0, 0);
-        writeLineVertical("|||||", width - 1, 0);
+        clearBuffer();
     }
 
+    public void update() {}
+    public void draw() {}
+
+    /* Getters and setters */
     public int getWidth()
     {
         return width;
@@ -35,6 +30,7 @@ public class MenuState
         return height;
     }
 
+    /* Methods */
     public void writeLine(String text, int x, int y)
     {
         char[] textArray = text.toCharArray();
@@ -63,6 +59,19 @@ public class MenuState
             }
 
             System.out.print("\n");
+        }
+
+        clearBuffer();
+    }
+
+    private void clearBuffer()
+    {
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                screenBuffer[y * width + x] = ' ';
+            }
         }
     }
 }

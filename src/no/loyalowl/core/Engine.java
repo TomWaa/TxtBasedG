@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Engine
 {
-    public Input input = Input.getInstance();
+    public static Input input = Input.getInstance();
 
     private boolean running = true;
 
