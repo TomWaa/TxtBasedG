@@ -2,15 +2,18 @@ package no.loyalowl.game;
 
 public class State
 {
+    public String stateKey;
+
     private int width;
     private int height;
 
     private char[] screenBuffer;
 
-    public State(int width, int height)
+    public State(int width, int height, String key)
     {
         this.width = width;
         this.height = height;
+        stateKey = key;
 
         screenBuffer = new char[height * width];
         clearBuffer();
