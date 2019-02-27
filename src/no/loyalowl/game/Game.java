@@ -3,6 +3,7 @@ package no.loyalowl.game;
 import no.loyalowl.core.Engine;
 import no.loyalowl.core.MessageSystem;
 import no.loyalowl.core.StateManager;
+import no.loyalowl.game.states.Buy;
 import no.loyalowl.game.states.MainMenu;
 
 public class Game extends Engine
@@ -21,7 +22,8 @@ public class Game extends Engine
         super.init();
 
         stateManager = new StateManager();
-        stateManager.add(new MainMenu(80, 23));
+        stateManager.add(new MainMenu(80, 23, "MainMenu"));
+        stateManager.add(new Buy(80, 23, "Buy"));
 
         messageSystem = new MessageSystem(0, stateManager.currentState.getHeight() - 2, 3);
     }
@@ -36,6 +38,7 @@ public class Game extends Engine
     @Override
     public void draw()
     {
+        clearTerminal();
         messageSystem.draw();
         stateManager.currentState.draw();
     }

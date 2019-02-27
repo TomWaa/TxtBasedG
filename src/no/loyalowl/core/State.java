@@ -1,4 +1,6 @@
-package no.loyalowl.game;
+package no.loyalowl.core;
+
+import java.io.Console;
 
 public class State
 {
@@ -7,7 +9,10 @@ public class State
     private int width;
     private int height;
 
-    private char[] screenBuffer;
+    private Cell[] screenBuffer;
+    private int x;
+    private int y;
+    private String foregroundColor;
 
     public State(int width, int height, String key)
     {
@@ -15,7 +20,11 @@ public class State
         this.height = height;
         stateKey = key;
 
-        screenBuffer = new char[height * width];
+        screenBuffer = new Cell[height * width];
+        for (int i = 0; i < screenBuffer.length; i++)
+        {
+            screenBuffer[i] = new Cell(' ');
+        }
         clearBuffer();
     }
 
@@ -34,21 +43,45 @@ public class State
     }
 
     /* Methods */
-    public void writeLine(String text, int x, int y)
+    public void writeLine(String text, int x, int y, String style)
     {
         char[] textArray = text.toCharArray();
         for (int i = 0; i < textArray.length; i++)
         {
-            screenBuffer[y * width + (x + i)] = textArray[i];
+            Cell currentCell = screenBuffer[y * width + (x + i)];
+
+            currentCell.setStyle(style);
+            currentCell.character = textArray[i];
+        }
+    }
+
+    public void writeLine(String text, int x, int y)
+    {
+        writeLine(text, x, y, ConsoleColors.DEFAULT);
+    }
+
+    public void writeLineVertical(String text, int x, int y, String style)
+    {
+        char[] textArray = text.toCharArray();
+        for (int i = 0; i < textArray.length; i++)
+        {
+            Cell currentCell = screenBuffer[(y + i) * width + x];
+
+            currentCell.setStyle(style);
+            currentCell.character = textArray[i];
         }
     }
 
     public void writeLineVertical(String text, int x, int y)
     {
-        char[] textArray = text.toCharArray();
-        for (int i = 0; i < textArray.length; i++)
+        writeLineVertical(text, x, y, ConsoleColors.DEFAULT);
+    }
+
+    public void styleLine(int x, int y, int length, String style)
+    {
+        for (int i = 0; i < length; i++)
         {
-            screenBuffer[(y + i) * width + x] = textArray[i];
+            screenBuffer[y * width + (x + i)].setStyle(style);
         }
     }
 
@@ -58,7 +91,10 @@ public class State
         {
             for (int x = 0; x < width; x++)
             {
-                System.out.print(screenBuffer[y * width + x]);
+                System.out.print(
+                        screenBuffer[y * width + x].getStyle() +
+                        screenBuffer[y * width + x].character +
+                        ConsoleColors.RESET);
             }
 
             System.out.print("\n");
@@ -73,7 +109,7 @@ public class State
         {
             for (int x = 0; x < width; x++)
             {
-                screenBuffer[y * width + x] = ' ';
+                screenBuffer[y * width + x].character = ' ';
             }
         }
     }

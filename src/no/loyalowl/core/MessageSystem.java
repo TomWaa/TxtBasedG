@@ -34,6 +34,7 @@ public class MessageSystem
             Game.stateManager.currentState.writeLine("> " + messages.get(i), 0, y - (index - 1));
             index--;
         }
+        Game.stateManager.currentState.writeLine("================================================================================", 0, Game.stateManager.currentState.getHeight() - 1);
     }
 
     public void addMessage(String message)
